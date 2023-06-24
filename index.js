@@ -106,10 +106,12 @@ class DOMHandler {
 
     static addMember(id) {
         for (let band of this.bands) {
-            let memberName = document.querySelector(`#${band.id}-member-name`);
-            let memberInstrument = document.querySelector(`#${band.id}-member-instrument`);
+            //let memberName = document.querySelector(`band-${band.id}-member-name`).value;
+            //let memberInstrument = document.querySelector(`.band-${band.id}-member-instrument`).value;
             if (band.id == id) {
-                band.members.push(new Member(memberName.value, memberInstrument.value));
+                band.members.push(new Member(document.querySelector(`#band-${band.id}-member-name`).value,
+                    document.querySelector(`#band-${band.id}-member-instrument`).value));
+
                 RESTService.updateBand(band)
                 .then(() => {
                     return RESTService.getAllBands();
@@ -145,8 +147,8 @@ class DOMHandler {
             app.removeChild(app.lastChild);
         };
         for (let band of bands) {
-            app.innerHTML = 
-            `<div id="${band.id}" class="card">
+            app.innerHTML += 
+            `<div id="band-${band.id}" class="card">
             <div class="card-header">
             <h2>${band.name}</h2>
             <button class="btn btn-danger" onclick="DOMHandler.deleteBand('${band.id}')">Delete</button>
@@ -156,25 +158,24 @@ class DOMHandler {
             <div class="card">
               <div class="row">
                   <div class="col-sm">
-                      <input type="text" id="${band.id}-member-name" class="form-control" placeholder="Band Member Name">
+                      <input type="text" id="band-${band.id}-member-name" class="form-control" placeholder="Band Member Name">
                   </div>
                   <div class="col-sm">
-                  <input type="text" id="${band.id}-member-instrument" class="form-control" placeholder="Instrument">
+                  <input type="text" id="band-${band.id}-member-instrument" class="form-control" placeholder="Instrument">
                   </div>
               </div>  
-              <button id="${band.id}-new-member" onclick="DOMHandler.addMember('${band.id}')" class="btn btn-primary form-control">Add</button>                
+              <button id="band-${band.id}-new-member" onclick="DOMHandler.addMember('${band.id}')" class="btn btn-primary form-control">Add</button>                
             </div> 
             </div>              
             </div><br>`
         };
         for (let band of bands) {
         for (let member of band.members) {
-            let cardBody = document.querySelector(`#${band.id}.card-body`);
-            cardBody.innerHTML =
-                `<p>
+            let cardBody = document.querySelector(`#band-${band.id} > .card-body`);
+            cardBody.innerHTML +=`<p>
                   <span id="name-${member.name}"><strong>Name: </strong> ${member.name}</span>
-                  <span id="area-${member.instrument}"><strong>Instrument: </strong> ${member.area}</span>
-                  <button class="btn btn-danger" onclick="DOMHandler.deleteRoom('${band.id}', '${member.name}')")>Delete Room</button>`;
+                  <span id="instrument-${member.instrument}"><strong>Instrument: </strong> ${member.instrument}</span>
+                  <button class="btn btn-danger" onclick="DOMHandler.deleteMember('${band.id}', '${member.name}')")>Delete Room</button>`;
             
         }
     }
