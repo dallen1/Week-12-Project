@@ -18,7 +18,7 @@ class Member {
 
 class RESTService {
     //built from reference https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
-    
+
     static url = 'http://localhost:3000/bands'
 
     static async getAllBands() {      
@@ -176,7 +176,7 @@ class DOMHandler {
             cardBody.innerHTML +=`<p>
                   <span id="name-${member.name}"><strong>Name: </strong> ${member.name}</span>&nbsp;
                   <span id="instrument-${member.instrument}"><strong>Instrument: </strong> ${member.instrument}</span>
-                  <button class="btn btn-danger" onclick="DOMHandler.deleteMember('${band.id}', '${member.name}')")>Delete Room</button>`;
+                  <button class="btn btn-danger" onclick="DOMHandler.deleteMember('${band.id}', '${member.name}')")>Delete Member</button>`;
             
         }
     }
