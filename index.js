@@ -80,3 +80,59 @@ class RESTService {
         return jsonData;
     }
 }
+
+class DOMHandler {
+    static bands;
+
+    static getAllBands() {
+        RESTService.getAllBands().then(bands => this.render(bands));
+    }
+
+    static createBand(name) {
+        RESTService.createBand(new Band(name))
+        .then(() => {
+            return RESTService.getAllBands();
+        })
+        .then((bands) => this.render(this.bands));
+    }
+
+    static deleteBand(id) {
+        RESTService.deleteBand(id)
+        .then(() => {
+            return RESTService.getAllBands();
+        })
+        .then((bands) => this.render(this.bands));
+    }
+
+    static addMember(id) {
+        for (let band of this.bands) {
+            if (band.id == id) {
+                band.members.push(new Member(getNameValueFromDOM, getInstrumentValueFromDOM));
+                RESTService.updateBand(band)
+                .then(() => {
+                    return RESTService.getAllBands();
+                })
+                .then((bands) => this.render(this.bands));
+            }
+        }
+    }
+
+    static deleteBand(bandId, memberName) {
+        for (let band of this.bands) {
+            if (bandId == id) {
+                for (let member of band.members) {
+                    if (member.name == memberName) {
+                        band.members.splice(band.members.name(memberName), 1);
+                        RESTService.updateBand(band)
+                        .then(() => {
+                            return RESTService.getAllBands();
+                        })
+                        .then((bands) => this.render(this.bands));
+                    }
+
+
+                }
+            }
+        }
+    }
+}
