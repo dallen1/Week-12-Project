@@ -17,6 +17,8 @@ class Member {
 }
 
 class RESTService {
+    //built from reference https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+    
     static url = 'http://localhost:3000/bands'
 
     static async getAllBands() {      
