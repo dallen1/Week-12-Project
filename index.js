@@ -1,3 +1,21 @@
+class Band {
+    constructor(name) {
+        this.name = name;
+        this.members = [];
+    }
+
+    addMember(name, instrument) {
+        this.members.push(new Member(name, instrument));
+    }
+}
+
+class Member {
+    constructor(name, instrument) {
+        this.name = name;
+        this.instrument = instrument;
+    }
+}
+
 class RESTService {
     static url = 'http://localhost:3000/bands'
 
