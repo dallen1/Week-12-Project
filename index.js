@@ -106,8 +106,6 @@ class DOMHandler {
 
     static addMember(id) {
         for (let band of this.bands) {
-            //let memberName = document.querySelector(`band-${band.id}-member-name`).value;
-            //let memberInstrument = document.querySelector(`.band-${band.id}-member-instrument`).value;
             if (band.id == id) {
                 band.members.push(new Member(document.querySelector(`#band-${band.id}-member-name`).value,
                     document.querySelector(`#band-${band.id}-member-instrument`).value));
@@ -123,10 +121,10 @@ class DOMHandler {
 
     static deleteMember(bandId, memberName) {
         for (let band of this.bands) {
-            if (bandId == id) {
+            if (bandId == band.id) {
                 for (let member of band.members) {
                     if (member.name == memberName) {
-                        band.members.splice(band.members.name(memberName), 1);
+                        band.members.splice(band.members.indexOf(member), 1);
                         RESTService.updateBand(band)
                         .then(() => {
                             return RESTService.getAllBands();
@@ -166,6 +164,7 @@ class DOMHandler {
               </div>  
               <button id="band-${band.id}-new-member" onclick="DOMHandler.addMember('${band.id}')" class="btn btn-primary form-control">Add</button>                
             </div> 
+            <br>
             </div>              
             </div><br>`
         };
@@ -173,7 +172,7 @@ class DOMHandler {
         for (let member of band.members) {
             let cardBody = document.querySelector(`#band-${band.id} > .card-body`);
             cardBody.innerHTML +=`<p>
-                  <span id="name-${member.name}"><strong>Name: </strong> ${member.name}</span>
+                  <span id="name-${member.name}"><strong>Name: </strong> ${member.name}</span>&nbsp;
                   <span id="instrument-${member.instrument}"><strong>Instrument: </strong> ${member.instrument}</span>
                   <button class="btn btn-danger" onclick="DOMHandler.deleteMember('${band.id}', '${member.name}')")>Delete Room</button>`;
             
@@ -188,6 +187,3 @@ $('#create-new-band').click(() => {
 });
 
 DOMHandler.getAllBands();
-
-//console.log(document.('#new-band-name').nodeValue)
-//DOMHandler.deleteBand('14')
