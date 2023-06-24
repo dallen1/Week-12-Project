@@ -119,7 +119,7 @@ class DOMHandler {
         }
     }
 
-    static deleteBand(bandId, memberName) {
+    static deleteMember(bandId, memberName) {
         for (let band of this.bands) {
             if (bandId == id) {
                 for (let member of band.members) {
@@ -149,7 +149,7 @@ class DOMHandler {
             `<div id="${band.id}" class="card">
             <div class="card-header">
             <h2>${band.name}</h2>
-            <button class="btn btn-danger onclick="DOMHandler.deleteBand('${band.id}')">Delete</button>
+            <button class="btn btn-danger" onclick="DOMHandler.deleteBand('${band.id}')">Delete</button>
             </div>
 
             <div class="card-body">
@@ -189,3 +189,4 @@ $('#create-new-band').click(() => {
 DOMHandler.getAllBands();
 
 //console.log(document.('#new-band-name').nodeValue)
+//DOMHandler.deleteBand('14')
