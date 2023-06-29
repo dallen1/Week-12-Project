@@ -16,5 +16,11 @@
   "profile": {
     "name": "typicode"
   },
-  "bands": []
+  "bands": [
+    {
+      "name": "Rolling Stones",
+      "members": [],
+      "id": 2
+    }
+  ]
 }

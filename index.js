@@ -140,6 +140,55 @@ class DOMHandler {
         }
     }
 
+    static enableUpdateBandControls(id) {
+        let e = document.querySelector(`#band-${id} > .card-header > h2`);
+        let f = document.querySelector(`#band-${id}-name-update`);
+        let g = document.querySelector(`.band-${id}-save`);
+        let h = document.querySelector(`.band-${id}-cancel`);
+        let i = document.querySelector(`.band-${id}-update`);
+        let j = document.querySelector(`.band-${id}-delete`);
+
+        e.classList.add("d-none")
+        f.classList.remove("d-none")
+        g.classList.remove("d-none")
+        h.classList.remove("d-none")
+        i.classList.add("d-none")
+        j.classList.add("d-none")
+
+
+    }
+
+    static cancelUpdateBandControls(id) {
+        let e = document.querySelector(`#band-${id} > .card-header > h2`);
+        let f = document.querySelector(`#band-${id}-name-update`);
+        let g = document.querySelector(`.band-${id}-save`);
+        let h = document.querySelector(`.band-${id}-cancel`);
+        let i = document.querySelector(`.band-${id}-update`);
+        let j = document.querySelector(`.band-${id}-delete`);
+
+        e.classList.remove("d-none")
+        f.classList.add("d-none")
+        g.classList.add("d-none")
+        h.classList.add("d-none")
+        i.classList.remove("d-none")
+        j.classList.remove("d-none")
+
+
+    }
+
+    static updateBandName(bandId) {
+        for (let band of this.bands) {
+            if (bandId == band.id) {
+                band.name = document.querySelector(`#band-${bandId}-name-update`).value;
+                RESTService.updateBand(band)
+                .then(() => {
+                    return RESTService.getAllBands();
+                })
+                .then((bands) => this.render(this.bands));
+            }
+        }
+    }
+
     static render(bands) {
         this.bands = bands;
         const app = document.querySelector('#app');
@@ -150,8 +199,13 @@ class DOMHandler {
             app.innerHTML += 
             `<div id="band-${band.id}" class="card">
             <div class="card-header">
-            <h2>${band.name}</h2>
-            <button class="btn btn-danger" onclick="DOMHandler.deleteBand('${band.id}')">Delete</button>
+            <h2 class="">${band.name}</h2>
+            <input type="text" class="form-control d-none" id="band-${band.id}-name-update" placeholder="${band.name}"><br>
+                <button onclick="DOMHandler.enableUpdateBandControls('${band.id}')" class="btn btn-primary band-${band.id}-update">Update</button>&nbsp;
+                <button class="btn btn-danger band-${band.id}-delete" onclick="DOMHandler.deleteBand('${band.id}')">Delete</button>&nbsp;
+                <button onclick="DOMHandler.updateBandName('${band.id}')" class="btn btn-success d-none band-${band.id}-save">Save</button>
+                <button onclick="DOMHandler.cancelUpdateBandControls('${band.id}')" class="btn btn-warning d-none band-${band.id}-cancel">Cancel</button>
+
             </div>
 
             <div class="card-body">
@@ -180,12 +234,16 @@ class DOMHandler {
             
         }
     }
+
     }
 }
 
 $('#create-new-band').click(() => {
-    let val = document.querySelector('#new-band-name').value
+    let val = document.querySelector('#new-band-name').value;
     DOMHandler.createBand(val);
 });
 
 DOMHandler.getAllBands();
+
+
+
